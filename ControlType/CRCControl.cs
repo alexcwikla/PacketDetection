@@ -94,6 +94,95 @@ namespace Projekt_Kolko
             }
             return CRC_divider;
         }
-        
+     
+        public byte CollisionDetection(Frame nFrame)
+        {
+            int control_size = CalculateControlPartSize(nFrame.GetInformationPart().Count); // Oblicamy control_size 
+            List<byte> information_part = new List<byte>(nFrame.GetInformationPart());      // Kopia do nowej listy
+            information_part.AddRange(nFrame.GetControlPart().GetList());                   // Dodajemy czesc kontrolna
+            List<byte> CRC_divider = nFrame.GetControlPart().GetCRCDivider();               // Odczytujemy CRC_Divider`a
+
+            CalculateCRCControlPart(control_size, CRC_divider, information_part);           // Powinno wszystko wyzerowac
+
+            if (information_part.Sum(x => Convert.ToInt32(x)) == 0)
+            {           
+                if (nFrame.IsChanged() == false)
+                {
+                    Console.WriteLine("Wyglada na to ze jest ok");              // Blad nie wystapil
+                    return 0;
+                }
+                else
+                {
+                    Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
+                    return 2;
+                }
+            }
+            else
+            {
+                if (nFrame.IsChanged() == false)
+                {
+                    Console.WriteLine("Blad!");                                 // Blad wystapil
+                    return 1;
+                }
+                else
+                {
+                    Console.WriteLine("False positive!");                       // Bledne wykrycie
+                    return 3;
+                }
+            }
+            
+        }
+
+
+        public byte CollisionDetection(Package nPackage)
+        {
+            List<byte> NewPacket = new List<byte>();                                    // Nowy pakiet
+            foreach (Frame frame in nPackage.GetFrames())                               // Kopiowanie
+            {
+                foreach (var nlist in frame.GetInformationPart())
+                {
+                    NewPacket.Add(nlist);
+                }
+                foreach (var nlist in frame.GetControlPart().GetList())
+                {
+                    NewPacket.Add(nlist);
+                }
+            }
+            int control_size = CalculateControlPartSize(NewPacket.Count);               // Oblicamy control_size 
+            List<byte> CRC_divider = nPackage.GetControlPart().GetCRCDivider();         // Odczytujemy CRC_Divider`a
+
+            NewPacket.AddRange(nPackage.GetControlPart().GetList());                    // Dodanie sumy kontrolnej
+
+            CalculateCRCControlPart(control_size, CRC_divider, NewPacket);              // Powinno wszystko wyzerowac
+
+            if (NewPacket.Sum(x => Convert.ToInt32(x)) == 0)                                                
+            {
+                if (nPackage.IsChanged() == false)
+                {
+                    Console.WriteLine("Wyglada na to ze jest ok");              // Blad nie wystapil
+                    return 0;
+                }
+                else
+                {
+                    Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
+                    return 2;
+                }
+            }
+            else
+            {
+                if (nPackage.IsChanged() == false)
+                {
+                    Console.WriteLine("Blad!");                                 // Blad wystapil
+                    return 1;
+                }
+                else
+                {
+                    Console.WriteLine("False positive!");                       // Bledne wykrycie
+                    return 3;
+                }
+            }
+
+        }
+
     }
 }
