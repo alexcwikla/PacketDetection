@@ -20,6 +20,10 @@ namespace Projekt_Kolko
         {
             return (byte)rnd.Next(0, 2);
         }
+        static public int GenerateRandomNumber(int min, int max)
+        {
+            return rnd.Next(min, max+1);
+        }
         static public List<byte> ConvertDecToByteList(int number)
         {
             String binary = Convert.ToString(number, 2);

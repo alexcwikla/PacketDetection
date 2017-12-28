@@ -12,7 +12,7 @@ namespace Projekt_Kolko
         private List<byte> frame_holder = new List<byte>();
         private ControlElements control_part = new ControlElements();
         private IControl control_type;
-
+        private bool isChanged = false;
 
         #region Private zone
 
@@ -97,6 +97,12 @@ namespace Projekt_Kolko
             {
                 frame_holder.Add(Functions.GenerateRandomByte());
             }
+        }
+        public bool IsChanged()
+        {
+            if (control_part.IsChanged() == true)
+                isChanged = true;
+            return isChanged;
         }
 
         #region Show Methods
@@ -191,6 +197,7 @@ namespace Projekt_Kolko
                 }
                 catch (Exception)
                 {
+                    Console.WriteLine("wystapil blad z wyciąganiem z []");
                     throw new ArgumentOutOfRangeException();
                 }
             }
@@ -202,11 +209,14 @@ namespace Projekt_Kolko
                     value = 1;
                 } 
                 try
-                {
+                { 
+                    if (frame_holder[number] != value)
+                        isChanged = true;
                     frame_holder[number] = value;
                 }
                 catch (Exception)
                 {
+                    Console.WriteLine("wystapil blad z przypisywaniem []");
                     throw new ArgumentOutOfRangeException();
                 }
             }

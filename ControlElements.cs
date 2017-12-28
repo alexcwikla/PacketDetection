@@ -10,6 +10,12 @@ namespace Projekt_Kolko
     {
         private List<byte> control_holder = new List<byte>();
         private List<byte> CRC_divider;
+        private bool isChanged = false;
+
+        public bool IsChanged()
+        {
+            return isChanged;
+        }
 
         public List<byte> GetList()
         {
@@ -65,10 +71,13 @@ namespace Projekt_Kolko
             {
                 try
                 {
+                    if (control_holder[number] != value)
+                        isChanged = true;
                     control_holder[number] = value;
                 }
                 catch (Exception)
                 {
+                    Console.WriteLine("wystapil blad z przypisywaniem []");
                     throw new ArgumentOutOfRangeException();
                 }
             }
