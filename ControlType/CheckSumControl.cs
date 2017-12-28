@@ -26,15 +26,39 @@ namespace Projekt_Kolko
             
             return Functions.ConvertDecToByteList(sum);
         }
-        public byte CollisionDetection(Frame nFrame)
+        
+                public byte CollisionDetection(Frame nFrame)
         {
-            ulong results = (ulong)nFrame.GetInformationPart().Sum(x => Convert.ToInt32(x));
-            if( results == nFrame.GetControlPart().GetControlPartInDec())
+            ulong results = (ulong)nFrame.GetInformationPart().Sum(x => Convert.ToInt32(x));        // Obliczamy sume z czesci informacyjnej
+            if (results == nFrame.GetControlPart().GetControlPartInDec())                           // Porownujemy z czescia kontrolna
             {
+                Console.WriteLine("Wyglada na to ze jest ok");                                      // Nie ma bledu
+                return 0;
+            }
+            else
+            {
+                Console.WriteLine("Blad!");                                                         // Blad
                 return 1;
             }
-            return 2;
         }
+
+        public byte CollisionDetection(Package nPackage)
+        {
+            ulong results = 0;                                                      // Tworzymy zmienna pomocnicza
+            foreach (var item in nPackage.GetFrames())                              // Dodajemy wszysktie czesci kontrolne ramek
+            {
+                results += (ulong)item.GetControlPart().GetControlPartInDec();
+            }
+            if (results == nPackage.GetControlPart().GetControlPartInDec())         // Porownujemy sume z czescia kontrolna pakietu
+            {
+                Console.WriteLine("Wyglada na to ze jest ok");                      // Nie ma bledu
+                return 0;
+            }
+            else
+            {
+                Console.WriteLine("Blad!");                                         // Blad
+                return 1;
+            }
 
     }
 }
