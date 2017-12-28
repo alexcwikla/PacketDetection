@@ -12,16 +12,25 @@ namespace Projekt_Kolko
         {
             for (int i = 0; i < nFrame.GetInformationPart().Count; i++)
             {
-                if (interference_level > Functions.GenerateRandomNumber(0, 10000))
+                if (interference_level > Functions.GenerateRandomNumber(0, 10000))// losuje liczbe z przedzialu 0,9999. Im 
+                                                                                  // im wieksze zaklocenia (interference_lvl)
+                                                                                  // tym wieksza szansa na przeklamanie
                 {
-                    nFrame[i] = Functions.GenerateRandomByte();
+                    nFrame[i] = Functions.GenerateRandomByte();     // nie musi zamienic wartosci (losuje 1 albo 0 )
                 }
             }
-            for (int i = 0; i < nFrame.GetControlPart().GetList().Count; i++)
+            DoCollisionForControlElements(nFrame.GetControlPart(), interference_level);
+        }
+        private void DoCollisionForControlElements(ControlElements ce, int interference_level)
+        {
+            for (int i = 0; i < ce.GetList().Count; i++)
             {
                 if (interference_level > Functions.GenerateRandomNumber(0, 10000))
                 {
-                    nFrame.GetControlPart()[i] = Functions.GenerateRandomByte();
+                    if (ce[i] == 0)
+                        ce[i] = 1;
+                    else
+                        ce[i] = 0;
                 }
             }
         }

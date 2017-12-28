@@ -72,6 +72,7 @@ namespace Projekt_Kolko
         private List<Frame> FrameList = new List<Frame>();
         private ControlElements control_part = new ControlElements();
         private IControl control_type;
+        private bool isChanged = false;
 
         #region Private_zone<3
         private void Show(List<byte> nlist)
@@ -142,6 +143,24 @@ namespace Projekt_Kolko
 
 
 
+        }
+
+        public bool IsChanged()
+        {
+            if (control_part.IsChanged() == true)
+                isChanged = true;
+            else
+            {
+                foreach (var item in FrameList)
+                {
+                    if (item.IsChanged() == true)
+                    {
+                        isChanged = true;
+                        break;
+                    }
+                }
+            }
+            return isChanged;
         }
 
         #region SET METHODS

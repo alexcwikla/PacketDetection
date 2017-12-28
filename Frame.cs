@@ -144,6 +144,11 @@ namespace Projekt_Kolko
         {
             return control_part;
         }
+
+        public int GetCountInformationAndControlPart()
+        {
+            return frame_holder.Count + control_part.GetList().Count;
+        }
         #endregion
 
         #region Set Methods

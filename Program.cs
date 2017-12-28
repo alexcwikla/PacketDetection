@@ -20,7 +20,7 @@ namespace Projekt_Kolko
             //pak.ShowFrames(); // wypisanie wszystkich ramek ( czesc informacyjna i kontrolna )
             //pak.ShowControlPart();
             ////pak.SetControlPart(5); // ustawienie czesci kontrolnej na [1][0][1]
-            //Console.WriteLine(pak.GetControlPart()[1]); // wypisanie wartosci znajdujacej sie pod indexem 1 czesci kontrolnej
+            //Console.WriteLine(pak.GetControlPart()[1]); // 0wypisanie wartosci znajdujacej sie pod indexem 1 czesci kontrolnej
 
             //Console.WriteLine("------------------------------------------------");
 
@@ -28,7 +28,7 @@ namespace Projekt_Kolko
             //Console.WriteLine("Ramka -----------------------------------------");
             // Stworzenie ramki o losowej zawartosci o rozmiarze 50. Typ kontroli Checksum
             Frame fra = new Frame.Builder().RandomFrame(50).SetControlType(new CheckSumControl()).Create();
-            ICollision col = new TotallyRandomCollision();
+            ICollision col = new RandomCollision();
             //fra.SetControlType(new CRCControl());
             //fra.SetControlPartByType();
             Console.WriteLine(fra.IsChanged());
@@ -37,7 +37,7 @@ namespace Projekt_Kolko
             fra.ShowInformationPart(); // wypisuje czesc informacyjna ramki
             fra.ShowControlPart(); // wypisuje czesc kontrolna ramki
 
-            col.DoCollision(fra, 1000);
+            col.DoCollision(fra, 5000);
             Console.WriteLine(fra.IsChanged());
             fra.ShowInformationPart(); // wypisuje czesc informacyjna ramki
             fra.ShowControlPart();
