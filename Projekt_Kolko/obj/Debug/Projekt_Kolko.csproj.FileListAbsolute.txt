@@ -1,0 +1,7 @@
+c:\users\work_stejszyn\documents\visual studio 2017\Projects\Projekt_Kolko\Projekt_Kolko\bin\Debug\Projekt_Kolko.exe.config
+c:\users\work_stejszyn\documents\visual studio 2017\Projects\Projekt_Kolko\Projekt_Kolko\bin\Debug\Projekt_Kolko.exe
+c:\users\work_stejszyn\documents\visual studio 2017\Projects\Projekt_Kolko\Projekt_Kolko\bin\Debug\Projekt_Kolko.pdb
+c:\users\work_stejszyn\documents\visual studio 2017\Projects\Projekt_Kolko\Projekt_Kolko\obj\Debug\Projekt_Kolko.csprojResolveAssemblyReference.cache
+c:\users\work_stejszyn\documents\visual studio 2017\Projects\Projekt_Kolko\Projekt_Kolko\obj\Debug\Projekt_Kolko.exe
+c:\users\work_stejszyn\documents\visual studio 2017\Projects\Projekt_Kolko\Projekt_Kolko\obj\Debug\Projekt_Kolko.pdb
+C:\Users\WORK_STEJSZYN\Documents\Visual Studio 2017\Projects\Projekt_Kolko\Projekt_Kolko\obj\Debug\Projekt_Kolko.csproj.CoreCompileInputs.cache
