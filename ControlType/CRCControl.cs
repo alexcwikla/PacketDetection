@@ -94,6 +94,39 @@ namespace Projekt_Kolko
             }
             return CRC_divider;
         }
-        
+           public byte CollisionDetection(Package nPackage)
+        {
+            List<byte> NewPacket = new List<byte>();                                    // Nowy pakiet
+            foreach (Frame frame in nPackage.GetFrames())                               // Kopiowanie
+            {
+                foreach (var nlist in frame.GetInformationPart())
+                {
+                    NewPacket.Add(nlist);
+                }
+                foreach (var nlist in frame.GetControlPart().GetList())
+                {
+                    NewPacket.Add(nlist);
+                }
+            }
+            int control_size = CalculateControlPartSize(NewPacket.Count);               // Oblicamy control_size 
+            List<byte> CRC_divider = nPackage.GetControlPart().GetCRCDivider();         // Odczytujemy CRC_Divider`a
+
+            NewPacket.AddRange(nPackage.GetControlPart().GetList());                    // Dodanie sumy kontrolnej
+
+            CalculateCRCControlPart(control_size, CRC_divider, NewPacket);              // Powinno wszystko wyzerowac
+
+            if (NewPacket.Sum(x => Convert.ToInt32(x)) == 0)                            // Hura nie ma bledu                      
+            {
+                Console.WriteLine("Nie ma bledu!");
+                return 0;
+            }
+
+            else
+            {
+                Console.WriteLine("Uwaga, blad!");                                      // Blad
+                return 1;
+            }
+
+        }
     }
 }
