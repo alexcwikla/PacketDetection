@@ -33,6 +33,81 @@ namespace Projekt_Kolko
             return parityBit;
         }
 
+        public byte CollisionDetection(Frame nFrame)
+        {
+            ulong count = (ulong)nFrame.GetInformationPart().Count(b => b == 1) + nFrame.GetControlPart().GetControlPartInDec(); //Zlicza jedynki z infoParty i controlPart
+            Console.WriteLine("Count - " + count);                              //Do wykasowania linijka
+
+            if (count % 2 == 0)                                                 // Sprawdzanie bledu
+            {
+                if( nFrame.IsChanged() == false)                       
+                {
+                    Console.WriteLine("Wyglada na to ze jest ok");              // Blad nie wystapil
+                    return 0;
+                }
+                else
+                {
+                    Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
+                    return 2;                                            
+                }
+            }                                        
+
+            else
+            {
+                if (nFrame.IsChanged() == false)
+                {
+                    Console.WriteLine("Blad!");                                 // Blad wystapil
+                    return 1;
+                }
+                else
+                {
+                    Console.WriteLine("False positive!");                       // Bledne wykrycie
+                    return 3;
+                }                                                  
+            } 
+        }
+
+        public byte CollisionDetection(Package nPakiet)
+        {
+            ulong count = nPakiet.GetControlPart().GetControlPartInDec();
+
+            Console.WriteLine("Count przed dodaniem ramek: " + count);          // Do usuniecia!
+
+            foreach (var frame in nPakiet.GetFrames())                          //Zlicza jedynki z infoParty calego pakietu
+            {
+                count += (ulong)frame.GetInformationPart().Count(b => b == 1);  //Zlicza jedynki z infoParty  z pojedynczej ramki
+            }
+
+            Console.WriteLine("Count - " + count);  //Do wykasowania linijka
+
+            if (count % 2 == 0)                     // Sprawdzanie bledu
+            {
+                if (nPakiet.IsChanged() == false)
+                {
+                    Console.WriteLine("Wyglada na to ze jest ok");              // Blad nie wystapil
+                    return 0;
+                }
+                else
+                {
+                    Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
+                    return 2;
+                }
+            }
+            else
+            {
+                if (nPakiet.IsChanged() == false)
+                {
+                    Console.WriteLine("Blad!");                                 // Blad wystapil
+                    return 1;
+                }
+                else
+                {
+                    Console.WriteLine("False positive!");                       // Bledne wykrycie
+                    return 3;
+                }
+            }
+        }
+
 
     }
 }
