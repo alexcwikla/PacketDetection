@@ -88,7 +88,7 @@ namespace Projekt_Kolko
 
         ~Frame()
         {
-            Console.WriteLine("Kasuje");
+            //Console.WriteLine("Kasuje");
         }
         public void CreateRandomInformationPart(int size)
         {
@@ -108,12 +108,12 @@ namespace Projekt_Kolko
         #region Show Methods
         public void ShowInformationPart()
         {
-            Console.Write("Information part : ");
+            //Console.Write("Information part : ");
             Show(frame_holder);
         }
         public void ShowControlPart()
         {
-            Console.Write("Control part : ");
+            //Console.Write("Control part : ");
             Show(control_part.GetList());
             try
             {
@@ -148,6 +148,11 @@ namespace Projekt_Kolko
         public int GetCountInformationAndControlPart()
         {
             return frame_holder.Count + control_part.GetList().Count;
+        }
+
+        public byte CheckFrame()
+        {
+            return control_type.CollisionDetection(this);
         }
         #endregion
 

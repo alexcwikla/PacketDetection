@@ -39,5 +39,14 @@ namespace Projekt_Kolko
                 }
             }
         }
+
+        public void DoCollision(Package nPackage, int interference_level)
+        {
+            for (int i = 0; i < nPackage.GetFrames().Count; i++)
+            {
+                DoCollision(nPackage[i], interference_level);
+            }
+            DoCollisionForControlElements(nPackage.GetControlPart(), interference_level);
+        }
     }
 }

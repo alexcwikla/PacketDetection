@@ -10,7 +10,8 @@ namespace Projekt_Kolko
     {
         List<byte> CalculateControlPart(Frame nFrame);
         List<byte> CalculateControlPart(Package nPakiet);
-        //byte CollisionDetection(Frame nFrame); 
+        byte CollisionDetection(Frame nFrame);
+        byte CollisionDetection(Package nPackage);
         // TODO: zdefiniowac tą funkcje w kazdym typie kontroli
         // Przydałoby się zrobić tak żeby:
         // zwracała ta funkcja 

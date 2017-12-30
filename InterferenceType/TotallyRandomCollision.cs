@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projekt_Kolko
 {
-    class TotallyRandomCollision : ICollision
+    class TotallyRandomCollision 
     {
         public void DoCollision(Frame nFrame, int interference_level)
         {

@@ -12,7 +12,7 @@ namespace Projekt_Kolko
         {
             List<byte> CheckSum = new List<byte>();
             int results = nFrame.GetInformationPart().Sum(x => Convert.ToInt32(x));
-            
+
             return Functions.ConvertDecToByteList(results);
         }
 
@@ -23,48 +23,23 @@ namespace Projekt_Kolko
             {
                 sum += (int)item.GetControlPart().GetControlPartInDec();
             }
-            
+
             return Functions.ConvertDecToByteList(sum);
         }
-        public byte CollisionDetection(Frame nFrame)
-        {
-            ulong results = (ulong)nFrame.GetInformationPart().Sum(x => Convert.ToInt32(x));
-            if( results == nFrame.GetControlPart().GetControlPartInDec())
-            {
-                return 1;
-            }
-            return 2;
-        }
+        //public byte CollisionDetection(Frame nFrame)
+        //{
+        //    ulong results = (ulong)nFrame.GetInformationPart().Sum(x => Convert.ToInt32(x));
+        //    if (results == nFrame.GetControlPart().GetControlPartInDec())
+        //    {
+        //        return 1;
+        //    }
+        //    return 2;
+        //}
 
         public byte CollisionDetection(Frame nFrame)
         {
             ulong results = (ulong)nFrame.GetInformationPart().Sum(x => Convert.ToInt32(x));        // Obliczamy sume z czesci informacyjnej
-            if (results == nFrame.GetControlPart().GetControlPartInDec())                           // Porownujemy z czescia kontrolna
-            {
-                if (nFrame.IsChanged() == false)
-                {
-                    Console.WriteLine("Wyglada na to ze jest ok");              // Blad nie wystapil
-                    return 0;
-                }
-                else
-                {
-                    Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
-                    return 2;
-                }
-            }
-            else
-            {
-                if (nFrame.IsChanged() == false)
-                {
-                    Console.WriteLine("Blad!");                                 // Blad wystapil
-                    return 1;
-                }
-                else
-                {
-                    Console.WriteLine("False positive!");                       // Bledne wykrycie
-                    return 3;
-                }
-            }
+            return DeterminateResults(results, nFrame.IsChanged(), nFrame.GetControlPart().GetControlPartInDec());
         }
 
         public byte CollisionDetection(Package nPackage)
@@ -73,30 +48,36 @@ namespace Projekt_Kolko
             foreach (var item in nPackage.GetFrames())                              // Dodajemy wszysktie czesci kontrolne ramek
             {
                 results += (ulong)item.GetControlPart().GetControlPartInDec();
-            }
-            if (results == nPackage.GetControlPart().GetControlPartInDec())         // Porownujemy sume z czescia kontrolna pakietu
+            }       // Porownujemy sume z czescia kontrolna pakietu
+            return DeterminateResults(results, nPackage.IsChanged(), nPackage.GetControlPart().GetControlPartInDec());
+        }
+
+        private byte DeterminateResults(ulong sum, bool changed, ulong object_sum)
+        {
+            if (sum == object_sum)                     // Sprawdzanie bledu
             {
-                if (nPackage.IsChanged() == false)
+                if (changed == false)
                 {
-                    Console.WriteLine("Wyglada na to ze jest ok");              // Blad nie wystapil
+                    //Console.WriteLine("Wyglada na to ze jest ok");              // NIe wykryto bledu i blad nie wystapil
                     return 0;
                 }
                 else
                 {
-                    Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
+                   // Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
                     return 2;
                 }
             }
             else
             {
-                if (nPackage.IsChanged() == false)
+                if (changed == true)
                 {
-                    Console.WriteLine("Blad!");                                 // Blad wystapil
+                    //Console.WriteLine("Wykryto blad");                                 // Blad wystapil
                     return 1;
                 }
                 else
                 {
-                    Console.WriteLine("False positive!");                       // Bledne wykrycie
+                    Console.WriteLine(changed + " zmiana ");
+                    Console.WriteLine("Bledne wykrycie - COS JEST NIE TAK ---------------------------------------------------");                       // Bledne wykrycie
                     return 3;
                 }
             }

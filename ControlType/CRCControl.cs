@@ -94,7 +94,7 @@ namespace Projekt_Kolko
             }
             return CRC_divider;
         }
-     
+
         public byte CollisionDetection(Frame nFrame)
         {
             int control_size = CalculateControlPartSize(nFrame.GetInformationPart().Count); // Oblicamy control_size 
@@ -103,34 +103,8 @@ namespace Projekt_Kolko
             List<byte> CRC_divider = nFrame.GetControlPart().GetCRCDivider();               // Odczytujemy CRC_Divider`a
 
             CalculateCRCControlPart(control_size, CRC_divider, information_part);           // Powinno wszystko wyzerowac
+            return DeterminateResults(information_part.Sum(x => Convert.ToInt32(x)), nFrame.IsChanged());
 
-            if (information_part.Sum(x => Convert.ToInt32(x)) == 0)
-            {           
-                if (nFrame.IsChanged() == false)
-                {
-                    Console.WriteLine("Wyglada na to ze jest ok");              // Blad nie wystapil
-                    return 0;
-                }
-                else
-                {
-                    Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
-                    return 2;
-                }
-            }
-            else
-            {
-                if (nFrame.IsChanged() == false)
-                {
-                    Console.WriteLine("Blad!");                                 // Blad wystapil
-                    return 1;
-                }
-                else
-                {
-                    Console.WriteLine("False positive!");                       // Bledne wykrycie
-                    return 3;
-                }
-            }
-            
         }
 
 
@@ -155,11 +129,16 @@ namespace Projekt_Kolko
 
             CalculateCRCControlPart(control_size, CRC_divider, NewPacket);              // Powinno wszystko wyzerowac
 
-            if (NewPacket.Sum(x => Convert.ToInt32(x)) == 0)                                                
+            return DeterminateResults(NewPacket.Sum(x => Convert.ToInt32(x)), nPackage.IsChanged());
+
+        }
+        private byte DeterminateResults(int sum, bool changed)
+        {
+            if(sum == 0)                   // Sprawdzanie bledu
             {
-                if (nPackage.IsChanged() == false)
+                if (changed == false)
                 {
-                    Console.WriteLine("Wyglada na to ze jest ok");              // Blad nie wystapil
+                    Console.WriteLine("Wyglada na to ze jest ok");              // NIe wykryto bledu i blad nie wystapil
                     return 0;
                 }
                 else
@@ -170,18 +149,18 @@ namespace Projekt_Kolko
             }
             else
             {
-                if (nPackage.IsChanged() == false)
+                if (changed == true)
                 {
-                    Console.WriteLine("Blad!");                                 // Blad wystapil
+                    Console.WriteLine("Wykryto blad");                                 // Blad wystapil
                     return 1;
                 }
                 else
                 {
-                    Console.WriteLine("False positive!");                       // Bledne wykrycie
+                    Console.WriteLine(changed + " zmiana ");
+                    Console.WriteLine("Bledne wykrycie - COS JEST NIE TAK ---------------------------------------------------");                       // Bledne wykrycie
                     return 3;
                 }
             }
-
         }
 
     }

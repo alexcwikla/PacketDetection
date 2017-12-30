@@ -162,6 +162,10 @@ namespace Projekt_Kolko
             }
             return isChanged;
         }
+        public byte CheckPackage()
+        {
+            return control_type.CollisionDetection(this);
+        }
 
         #region SET METHODS
         /// <summary>
