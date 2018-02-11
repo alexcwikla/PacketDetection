@@ -6,9 +6,22 @@ using System.Threading.Tasks;
 
 namespace Projekt_Kolko
 {
+
     public static class Functions
     {
+
+
+        //
+        public const int FLEXIBLE = 0;
+
+        //Generuje losowe liczby. Static zapewnia wygenerowanie innych liczb za kazdym razem.
         static Random rnd = new Random();
+
+        /// <summary>
+        /// Zamienia liste przechowywujaca typ byte na liczbe.
+        /// </summary>
+        /// <param name="nList"></param>
+        /// <returns>Zwraca liczbowa reprezentacje listy</returns>
         static public ulong GetPartInDec(List<byte> nList)
         {
             string result = string.Join("", nList);
@@ -16,14 +29,31 @@ namespace Projekt_Kolko
             return InDec;
         }
 
+        /// <summary>
+        /// Generuje losowa wartosc typu byte(1 lub 0).
+        /// </summary>
+        /// <returns></returns>
         static public byte GenerateRandomByte()
         {
             return (byte)rnd.Next(0, 2);
         }
+
+        /// <summary>
+        /// Generuje losowa liczbe z przedzialu
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
         static public int GenerateRandomNumber(int min, int max)
         {
             return rnd.Next(min, max+1);
         }
+
+        /// <summary>
+        /// Zamienia liczbe w systemie dziesietnym na liczbe w systemie binarnym w postaci Listy.
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         static public List<byte> ConvertDecToByteList(int number)
         {
             String binary = Convert.ToString(number, 2);
@@ -40,11 +70,12 @@ namespace Projekt_Kolko
             return byteList;
         }
 
-        public static void AddElements(List<byte> array, int number)
+
+        public static void AddElements(List<byte> nlst, int number)
         {
             foreach (var item in Functions.ConvertDecToByteList(number))
             {
-                array.Add(item);
+                nlst.Add(item);
             }
         }
     }

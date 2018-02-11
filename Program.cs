@@ -8,17 +8,24 @@ namespace Projekt_Kolko
 {
     class Program
     {
-
+        
         static void Main(string[] args)
         {
             // Przykladowo wygenerowane ramki i Packagey
 
-            //Frame fra = new Frame.Builder().RandomFrame(50).SetControlType(new CheckSumControl()).Create();
 
-            TransmissionType newTranssmision = new TransmissionType(100, new ParityBitControl(), new RandomCollision(),1000,100,100);
-            newTranssmision.Normal();
-            //}
+            BitsCollision BC = new BitsCollision.Builder().SetBasedOnPackage().SetRandomCollision().Create();
+
+            SineCollision sin = new SineCollision(1, 2, 0, -60, 60);
+
+            TransmissionType newTranssmision = new TransmissionType(1000, new CheckSumControl(), BC, 1000, 100, 100,8);
+            newTranssmision.UserStop();
             
+
+
+
+
+
 
             Console.ReadKey();
         }
@@ -26,3 +33,4 @@ namespace Projekt_Kolko
        
     }
 }
+
