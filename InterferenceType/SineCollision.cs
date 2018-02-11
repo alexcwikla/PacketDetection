@@ -46,6 +46,7 @@ namespace Projekt_Kolko
                 this.x_start = _x_end;
                 this.x_end = _x_start;
             }
+
             if (_x_step == "default")
                 this.x_step = 0;
             else
@@ -66,12 +67,12 @@ namespace Projekt_Kolko
 
 
             double collision = Math.Abs(arg_a - ((double)interference_level / 10000) * arg_a);
-            Console.WriteLine(collision);
+            //Console.WriteLine(collision);
             for (int i = 0; i < nFrame.GetInformationPart().Count; i++, x += x_step)
             {
 
                 //Console.Write(x + " : ");
-                Console.WriteLine("f(x) = " +  Function(x) + " x : " + x);
+               // Console.WriteLine("f(x) = " +  Function(x) + " x : " + x);
                 //Console.WriteLine((double)1 / interference_level);
                 if (Math.Abs(Function(x)) > collision) // dla wartosci 
                 {

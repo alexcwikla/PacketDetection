@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Projekt_Kolko
 {
+    /*
+     * Okresla w jaki sposob bity w pakietach maja zostac przeklamane
+     */
     public interface ICollision
     {
         void DoCollision(Frame nFrame, int interference_level);
