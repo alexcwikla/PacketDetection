@@ -8,33 +8,51 @@ namespace Projekt_Kolko
 {
     public class CheckSumControl : IControl
     {
-        public List<byte> CalculateControlPart(Frame nFrame)
-        {
-            List<byte> CheckSum = new List<byte>();
-            int results = nFrame.GetInformationPart().Sum(x => Convert.ToInt32(x));
+        
 
-            return Functions.ConvertDecToByteList(results);
+        public List<byte> CalculateControlPart(Frame nFrame, int sizeOfControlPart = Functions.FLEXIBLE)
+        {
+            int results = nFrame.GetInformationPart().Sum(x => Convert.ToInt32(x));
+            List<byte> CheckSum = Functions.ConvertDecToByteList(results);
+
+            if (sizeOfControlPart != Functions.FLEXIBLE)
+                SetSizeOfList(ref CheckSum, sizeOfControlPart);
+
+            return CheckSum;
         }
 
-        public List<byte> CalculateControlPart(Package nPackage)
+        public List<byte> CalculateControlPart(Package nPackage, int sizeOfControlPart = Functions.FLEXIBLE)
         {
             int sum = 0;
             foreach (var item in nPackage.GetFrames())
             {
                 sum += (int)item.GetControlPart().GetControlPartInDec();
             }
+            List<byte> CheckSum = Functions.ConvertDecToByteList(sum);
+            //Console.WriteLine(CheckSum);
+            if (sizeOfControlPart != Functions.FLEXIBLE)
+                SetSizeOfList(ref CheckSum, sizeOfControlPart);
 
-            return Functions.ConvertDecToByteList(sum);
+            return CheckSum;
         }
-        //public byte CollisionDetection(Frame nFrame)
-        //{
-        //    ulong results = (ulong)nFrame.GetInformationPart().Sum(x => Convert.ToInt32(x));
-        //    if (results == nFrame.GetControlPart().GetControlPartInDec())
-        //    {
-        //        return 1;
-        //    }
-        //    return 2;
-        //}
+
+        public void SetSizeOfList(ref List<byte> lst, int sizeOfControlPart)
+        {
+            //Console.WriteLine("jestem uta");
+            if (sizeOfControlPart < lst.Count)
+                for (int i = lst.Count; i != sizeOfControlPart; i--)
+                {
+                    lst.RemoveAt(0);
+                }
+            else
+                for (int i = lst.Count; i != sizeOfControlPart; i++)
+                {
+                    lst.Insert(0, 0);
+                }
+           
+        }
+
+
 
         public byte CollisionDetection(Frame nFrame)
         {
@@ -76,8 +94,8 @@ namespace Projekt_Kolko
                 }
                 else
                 {
-                    Console.WriteLine(changed + " zmiana ");
-                    Console.WriteLine("Bledne wykrycie - COS JEST NIE TAK ---------------------------------------------------");                       // Bledne wykrycie
+                    //Console.WriteLine(changed + " zmiana ");
+                    //Console.WriteLine("Bledne wykrycie - COS JEST NIE TAK ---------------------------------------------------");                       // Bledne wykrycie
                     return 3;
                 }
             }

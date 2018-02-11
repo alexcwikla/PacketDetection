@@ -8,9 +8,11 @@ namespace Projekt_Kolko
 {
     public class CRCControl : IControl
     {
-        public List<byte> CalculateControlPart(Frame nFrame)
+        public List<byte> CalculateControlPart(Frame nFrame, int sizeOfControlPart = Functions.FLEXIBLE)
         {
-            int control_size = CalculateControlPartSize(nFrame.GetInformationPart().Count);
+
+            int control_size = CalculateControlPartSize(nFrame.GetInformationPart().Count, sizeOfControlPart);
+
             List<byte> information_part = new List<byte>(nFrame.GetInformationPart());
             List<byte> CRC_divider = GenerateCRC(control_size);
 
@@ -20,7 +22,7 @@ namespace Projekt_Kolko
             nFrame.GetControlPart().SetCRCDivider(CRC_divider);
             return CalculateCRCControlPart(control_size, CRC_divider, information_part);
         }
-        public List<byte> CalculateControlPart(Package nPackage)
+        public List<byte> CalculateControlPart(Package nPackage, int sizeOfControlPart = Functions.FLEXIBLE)
         {
             List<byte> NewPacket = new List<byte>();
             foreach (Frame frame in nPackage.GetFrames())
@@ -34,7 +36,7 @@ namespace Projekt_Kolko
                     NewPacket.Add(nlist);
                 }
             }
-            int control_size = CalculateControlPartSize(NewPacket.Count);
+            int control_size = CalculateControlPartSize(NewPacket.Count, sizeOfControlPart);
             List<byte> CRC_divider = GenerateCRC(control_size);
 
             for (int i = 0; i < control_size; i++)
@@ -69,8 +71,10 @@ namespace Projekt_Kolko
 
             return control_part;
         }
-        private int CalculateControlPartSize(int size_of_information_part)
+        private int CalculateControlPartSize(int size_of_information_part,int sizeOfControlPart)
         {
+            if (sizeOfControlPart != Functions.FLEXIBLE)
+                return sizeOfControlPart;
             int control_size = 1;
             for (int i = 4; size_of_information_part >= i; i = i * 2)
             {
@@ -97,7 +101,9 @@ namespace Projekt_Kolko
 
         public byte CollisionDetection(Frame nFrame)
         {
-            int control_size = CalculateControlPartSize(nFrame.GetInformationPart().Count); // Oblicamy control_size 
+            int control_size = nFrame.GetControlPart().GetCount(); // Oblicamy control_size 
+                                                                   //CalculateControlPartSize(nFrame.GetInformationPart().Count); 
+
             List<byte> information_part = new List<byte>(nFrame.GetInformationPart());      // Kopia do nowej listy
             information_part.AddRange(nFrame.GetControlPart().GetList());                   // Dodajemy czesc kontrolna
             List<byte> CRC_divider = nFrame.GetControlPart().GetCRCDivider();               // Odczytujemy CRC_Divider`a
@@ -122,7 +128,8 @@ namespace Projekt_Kolko
                     NewPacket.Add(nlist);
                 }
             }
-            int control_size = CalculateControlPartSize(NewPacket.Count);               // Oblicamy control_size 
+            int control_size = nPackage.GetControlPart().GetCount();
+                //CalculateControlPartSize(NewPacket.Count);               // Oblicamy control_size 
             List<byte> CRC_divider = nPackage.GetControlPart().GetCRCDivider();         // Odczytujemy CRC_Divider`a
 
             NewPacket.AddRange(nPackage.GetControlPart().GetList());                    // Dodanie sumy kontrolnej
@@ -138,12 +145,12 @@ namespace Projekt_Kolko
             {
                 if (changed == false)
                 {
-                    Console.WriteLine("Wyglada na to ze jest ok");              // NIe wykryto bledu i blad nie wystapil
+                    //Console.WriteLine("Wyglada na to ze jest ok");              // NIe wykryto bledu i blad nie wystapil
                     return 0;
                 }
                 else
                 {
-                    Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
+                    //Console.WriteLine("Blad istnieje nie zostal wykryty");      // Blad istnieje i nie zostal wykryty
                     return 2;
                 }
             }
@@ -151,13 +158,13 @@ namespace Projekt_Kolko
             {
                 if (changed == true)
                 {
-                    Console.WriteLine("Wykryto blad");                                 // Blad wystapil
+                    //Console.WriteLine("Wykryto blad");                                 // Blad wystapil
                     return 1;
                 }
                 else
                 {
-                    Console.WriteLine(changed + " zmiana ");
-                    Console.WriteLine("Bledne wykrycie - COS JEST NIE TAK ---------------------------------------------------");                       // Bledne wykrycie
+                   // Console.WriteLine(changed + " zmiana ");
+                    //Console.WriteLine("Bledne wykrycie - COS JEST NIE TAK ---------------------------------------------------");    
                     return 3;
                 }
             }

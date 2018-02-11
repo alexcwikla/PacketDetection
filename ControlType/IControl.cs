@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 namespace Projekt_Kolko
 {
+   
     public interface IControl
     {
-        List<byte> CalculateControlPart(Frame nFrame);
-        List<byte> CalculateControlPart(Package nPakiet);
+        
+
+        List<byte> CalculateControlPart(Frame nFrame, int sizeOfControlPart = Functions.FLEXIBLE);
+        List<byte> CalculateControlPart(Package nPakiet, int sizeOfControlPart = Functions.FLEXIBLE);
         byte CollisionDetection(Frame nFrame);
         byte CollisionDetection(Package nPackage);
-        // TODO: zdefiniowac tą funkcje w kazdym typie kontroli
-        // Przydałoby się zrobić tak żeby:
-        // zwracała ta funkcja 
+        
+        // Funkcja wykrywania bledu zwraca (Collision Detection): 
         // 0 - w przypadku gdy nie ma błędu i dany system sprawdzający też stwierdził ze nie ma błędu
         // 1 - gdy wykryto błąd i ten błąd rzeczywiscie występował
         // 2 - gdy nie wykryto błędu, a dany bład występował
-        // 3 - gdy wykryto błąd, a błąd nie występował ( chyba może być taka sytuacja, ale bardziej chodzi o sprawdzenie
-        //                                              działania funkcji generujacych kontrole )
+        // 3 - gdy wykryto błąd, a błąd nie występował ( przy ograniczeniach dlugosci części kontrolnej i 
+        //                                              do testowania poprawnosci dzialania algorytmu kontroli )
         /*
-         * Mogą Ci się przydać takie funkcje jak:
-         * np dla ramki o nazwie fra;
+         * 
+         * przydatne funkcje:
          * fra.GetInformationPart() - zwraca listę częsci informacyjnej ( bez części kontroli )
          * fra.GetControlPart() - zwraca obiekt typu ControlElements
          * fra.GetControlPart().GetList() - zwraca listę z elementami częsci kontrolnej
