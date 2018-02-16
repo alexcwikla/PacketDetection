@@ -134,12 +134,14 @@ namespace Projekt_Kolko
         }
         public void CreateRandomInformationPart(int size)
         {
-
             for (int i = 0; i < size; i++)
-            {
                 frame_holder.Add(Functions.GenerateRandomByte());
-            }
         }
+
+        /// <summary>
+        /// Zwraca informacje czy jakis element ramki zostal zamieniony
+        /// </summary>
+        /// <returns></returns>
         public bool IsChanged()
         {
             if (control_part.IsChanged() == true)
@@ -147,6 +149,10 @@ namespace Projekt_Kolko
             return isChanged;
         }
 
+        /// <summary>
+        /// Sprawdza czy ramka zostala przeklamana oraz okresla czy zostalo to wykryte przez czesc kontrolna
+        /// </summary>
+        /// <returns></returns>
         public byte CheckFrame()
         {
             return control_type.CollisionDetection(this);
@@ -188,11 +194,19 @@ namespace Projekt_Kolko
             //TODO : Znalezc sposob na prawidlowe zwracanie referencji części kontrolnej i informacyjnej
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Zwraca czesc informacyjna ramki
+        /// </summary>
+        /// <returns></returns>
         public List<byte> GetInformationPart()
         {
             return frame_holder;
         }
-        
+        /// <summary>
+        /// Zwraca czesc informacyjna ramki w jako liczbe
+        /// </summary>
+        /// <returns></returns>
         public ulong GetInformationPartInDec()
         {
             return Functions.GetPartInDec(this.GetInformationPart());
@@ -202,6 +216,10 @@ namespace Projekt_Kolko
             return control_part;
         }
 
+        /// <summary>
+        /// Zwraca liczbe elementow zawartych w sumie w czesci informacyjnej oraz kontrolnej
+        /// </summary>
+        /// <returns></returns>
         public int GetCountInformationAndControlPart()
         {
             return frame_holder.Count + control_part.GetList().Count;
@@ -248,7 +266,7 @@ namespace Projekt_Kolko
         {
             get
             {
-                if (number >= frame_holder.Count) //TODO: Sprawdz dzialanie!!!!!!!!!!!!!!!!!!!!
+                if (number >= frame_holder.Count) // gdy podawana jest liczba spoza zakresu automatycznie przechodzi do czesci kontrolnej
                 {
                     try
                     {
@@ -273,12 +291,7 @@ namespace Projekt_Kolko
             }
             set
             {
-                /* jakby ktos chciał ustawic inna liczbe :))) */
 
-                if ( value > 1 || value < 0)
-                {
-                    value = 1;
-                }
                 if (number >= frame_holder.Count) //TODO: Sprawdz dzialanie!!!!!!!!!!!!!!!!!!!!
                 {
                     try

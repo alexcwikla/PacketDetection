@@ -11,9 +11,32 @@ namespace Projekt_Kolko
     {
         
 
+        /// <summary>
+        /// Obliczanie czesci kontrolnej dla Ramki
+        /// </summary>
+        /// <param name="nFrame"></param>
+        /// <param name="sizeOfControlPart">Okresla dlugosc czesci kontrolnej. FLEXIBLE automatycznie okresla dlugosc czesci kontrolnej</param>
+        /// <returns></returns>
         List<byte> CalculateControlPart(Frame nFrame, int sizeOfControlPart = Functions.FLEXIBLE);
+        /// <summary>
+        /// Obliczanie czesci kontrolnej dla Pakietu
+        /// </summary>
+        /// <param name="nFrame"></param>
+        /// <param name="sizeOfControlPart">Okresla dlugosc czesci kontrolnej. FLEXIBLE automatycznie okresla dlugosc czesci kontrolnej</param>
+        /// <returns></returns>
         List<byte> CalculateControlPart(Package nPakiet, int sizeOfControlPart = Functions.FLEXIBLE);
+
+        /// <summary>
+        /// Wykrywanie przeklaman w ramce
+        /// </summary>
+        /// <param name="nFrame"></param>
+        /// <returns></returns>
         byte CollisionDetection(Frame nFrame);
+        /// <summary>
+        /// Wykrywanie przeklaman w pakiecie
+        /// </summary>
+        /// <param name="nFrame"></param>
+        /// <returns></returns>
         byte CollisionDetection(Package nPackage);
         
         // Funkcja wykrywania bledu zwraca (Collision Detection): 

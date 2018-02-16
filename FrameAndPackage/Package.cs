@@ -30,12 +30,12 @@ namespace Projekt_Kolko
 
     public class Package
     {
-        private List<Frame> FrameList = new List<Frame>();
-        private ControlElements control_part = new ControlElements();
-        private IControl control_type;
+        private List<Frame> FrameList = new List<Frame>(); //przechowuje liste ramek
+        private ControlElements control_part = new ControlElements(); // czesc kontrolna pakietu
+        private IControl control_type; // typ kontroli -> ustawia czesc kontrolna
         private bool isChanged = false;
 
-        #region Private_zone<3
+        #region Private_zone
         private void Show(List<byte> nlist)
         {
             foreach (var item in nlist)
@@ -157,10 +157,9 @@ namespace Projekt_Kolko
 
         #region SET METHODS
         /// <summary>
-        /// Ustawia czesc kontrolna zamieniajac liczbę z systemu 10 na 2. Dlugosc listy zawierajacej 
-        /// kontrolna czesc zalezna jest od zajmowanych bitow przez argument.
+        /// Wylicza czesc kontrolna Pakietu ze wzgledu na typ kontroli
         /// </summary>
-        /// <param name="number">Liczba w systemie dziesietnym</param>
+        /// <param name="sizeOfControlPart">Okresla liczbe bitow czesci kontrolnej</param>
         public void SetControlPartByType(int sizeOfControlPart = Functions.FLEXIBLE)
         {
             try
@@ -172,6 +171,10 @@ namespace Projekt_Kolko
                 Console.WriteLine("Nie zdefiniowany typ obiektu");
             }
         }
+        /// <summary>
+        /// Ustawia typ kontroli 
+        /// </summary>
+        /// <param name="ICon">Typ kontroli</param>
         public void SetControlType(IControl ICon)
         {
             try

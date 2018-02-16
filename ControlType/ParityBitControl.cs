@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Projekt_Kolko
 {
-    //TODO : Nieobsluzone sizeofCOntrolPart - mozna w przyszlosci dodac
+    //TODO : Nieobsluzone sizeofCOntrolPart. Mozliwosc dodania algorytmow pozwalajacych na stworzenie
+    // bardziej wyrafinowanych postaci kontroli bazujacej na bicie parzystosci
     public class ParityBitControl : IControl
     {
         public List<byte> CalculateControlPart(Frame nFrame, int sizeOfControlPart = Functions.FLEXIBLE)
@@ -27,18 +28,19 @@ namespace Projekt_Kolko
         }
         private List<byte> DeterminateParityBit(ulong sum)
         {
+            // Bit parzystosci zapisany
             List<byte> parityBit = new List<byte>();
-            if (sum % 2 == 0)
-                parityBit.Add(0);
+            if (sum % 2 == 0) 
+                parityBit.Add(0); // jesli suma w czesci kontrolnej jest podzielna przez 2 => bit parzystosci = 1
             else
-                parityBit.Add(1);
+                parityBit.Add(1); // jesli suma w czesci kontrolnej nie jest podzielna przez 2 => bit parzystosci = 0
             return parityBit;
         }
 
         public byte CollisionDetection(Frame nFrame)
         {
-            ulong count = (ulong)nFrame.GetInformationPart().Count(b => b == 1) + nFrame.GetControlPart().GetControlPartInDec(); //Zlicza jedynki z infoParty i controlPart
-            //Console.WriteLine("Count - " + count);                              //Do wykasowania linijka
+            //Zlicza jedynki z infoParty i controlPart
+            ulong count = (ulong)nFrame.GetInformationPart().Count(b => b == 1) + nFrame.GetControlPart().GetControlPartInDec(); 
 
             return DeterminateResults(count, nFrame.IsChanged());
         }

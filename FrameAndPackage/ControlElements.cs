@@ -8,20 +8,16 @@ namespace Projekt_Kolko
 {
     public class ControlElements 
     {
-        private List<byte> control_holder = new List<byte>();
-        private List<byte> CRC_divider;
-        private bool isChanged = false;
+        private List<byte> control_holder = new List<byte>(); //przechowuje bity czesci kontrolnej
+        private List<byte> CRC_divider;                       // dzielnik uzywany do kontroli CRC. Tworzony w momencie ustalenia typu jako CRC
+        private bool isChanged = false;                       // flaga okreslajaca czy zaszly jakies zmiany od czasu "wyslania" 
 
-        private int sizeOfControlPart = 0;
+
 
         public bool IsChanged()
         {
             return isChanged;
         }
-
-        
-        
-
         public void AddByte(Byte b)
         {
             control_holder.Add(b);
@@ -81,13 +77,10 @@ namespace Projekt_Kolko
         {
             return control_holder;
         }
-        public int GetSizeOfControlPart() // to samo co get Count - pomysl o tym
-        {
-            return sizeOfControlPart;
-        }
-
-
-
+        //public int GetSizeOfControlPart() // to samo co get Count - pomysl o tym
+        //{
+        //    return sizeOfControlPart;
+        //}
 
         public byte this[int number]
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PackageDetection.Results;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,23 +52,28 @@ namespace Projekt_Kolko
                 F_results[i].O_Add(lst[i]);
         }
 
-        public void ShowResults()
+        //public void ShowResults()
+        //{
+        //    Console.Clear();
+        //    Console.WriteLine("------------------------------WYNIKI-------------------------------------");
+        //    Console.WriteLine("------------------------------Pakiet-------------------------------------");
+        //    Console.WriteLine("|Liczba pakietow bez bledu :                        " + P_results[(int)Data.noError]);
+        //    Console.WriteLine("|Liczba wykrytych blednych pakietow :               " + P_results[(int)Data.Detected]);
+        //    Console.WriteLine("|Liczba niewykrytych blednych pakietow :            " + P_results[(int)Data.unDetected]);
+        //    Console.WriteLine("|Liczba wykrytych bledow, przy poprawnych danych:   " + P_results[(int)Data.detectedNoError]);
+        //    Console.WriteLine("|Liczba transmisji -                                " + P_results[(int)Data.number_of_transmission]);
+        //    Console.WriteLine("------------------------------Ramki--------------------------------------");
+        //    Console.WriteLine("|Liczba ramek bez bledu :                           " + F_results[(int)Data.noError]);
+        //    Console.WriteLine("|Liczba wykrytych blednych ramek :                  " + F_results[(int)Data.Detected]);
+        //    Console.WriteLine("|Liczba niewykrytych blednych ramek :               " + F_results[(int)Data.unDetected]);
+        //    Console.WriteLine("|Liczba wykrytych bledow, przy poprawnych danych:   " + F_results[(int)Data.detectedNoError]);
+        //    Console.WriteLine("|Liczba transmisji -                                " + F_results[(int)Data.number_of_transmission]);
+        //    Console.WriteLine("-------------------------------------------------------------------------");
+        //}
+
+        public void ShowResults(ref ResultsWindow resultsWin)
         {
-            Console.Clear();
-            Console.WriteLine("------------------------------WYNIKI-------------------------------------");
-            Console.WriteLine("------------------------------Pakiet-------------------------------------");
-            Console.WriteLine("|Liczba pakietow bez bledu :                        " + P_results[(int)Data.noError]);
-            Console.WriteLine("|Liczba wykrytych blednych pakietow :               " + P_results[(int)Data.Detected]);
-            Console.WriteLine("|Liczba niewykrytych blednych pakietow :            " + P_results[(int)Data.unDetected]);
-            Console.WriteLine("|Liczba wykrytych bledow, przy poprawnych danych:   " + P_results[(int)Data.detectedNoError]);
-            Console.WriteLine("|Liczba transmisji -                                " + P_results[(int)Data.number_of_transmission]);
-            Console.WriteLine("------------------------------Ramki--------------------------------------");
-            Console.WriteLine("|Liczba ramek bez bledu :                           " + F_results[(int)Data.noError]);
-            Console.WriteLine("|Liczba wykrytych blednych ramek :                  " + F_results[(int)Data.Detected]);
-            Console.WriteLine("|Liczba niewykrytych blednych ramek :               " + F_results[(int)Data.unDetected]);
-            Console.WriteLine("|Liczba wykrytych bledow, przy poprawnych danych:   " + F_results[(int)Data.detectedNoError]);
-            Console.WriteLine("|Liczba transmisji -                                " + F_results[(int)Data.number_of_transmission]);
-            Console.WriteLine("-------------------------------------------------------------------------");
+            resultsWin.SetResultsboxes(this.P_results, this.F_results);
         }
 
         //public InfiniteNumber P_noError = new InfiniteNumber();

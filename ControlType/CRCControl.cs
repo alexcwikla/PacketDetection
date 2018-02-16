@@ -11,38 +11,38 @@ namespace Projekt_Kolko
         public List<byte> CalculateControlPart(Frame nFrame, int sizeOfControlPart = Functions.FLEXIBLE)
         {
 
-            int control_size = CalculateControlPartSize(nFrame.GetInformationPart().Count, sizeOfControlPart);
+            int control_size = CalculateControlPartSize(nFrame.GetInformationPart().Count, sizeOfControlPart); //okresla dlugosc
 
-            List<byte> information_part = new List<byte>(nFrame.GetInformationPart());
-            List<byte> CRC_divider = GenerateCRC(control_size);
+            List<byte> information_part = new List<byte>(nFrame.GetInformationPart()); // kopiuje czesc informacyjna
+            List<byte> CRC_divider = GenerateCRC(control_size);                        // generuje CRC_divider
 
             for (int i = 0; i < control_size; i++)
-                information_part.Add(0);
+                information_part.Add(0);          // Przygotowuje miejsce dla czesci kontrolnej
 
-            nFrame.GetControlPart().SetCRCDivider(CRC_divider);
-            return CalculateCRCControlPart(control_size, CRC_divider, information_part);
+            nFrame.GetControlPart().SetCRCDivider(CRC_divider); // Dodaje CRCDivider do ramki
+            return CalculateCRCControlPart(control_size, CRC_divider, information_part); 
         }
         public List<byte> CalculateControlPart(Package nPackage, int sizeOfControlPart = Functions.FLEXIBLE)
         {
             List<byte> NewPacket = new List<byte>();
-            foreach (Frame frame in nPackage.GetFrames())
+            foreach (Frame frame in nPackage.GetFrames()) // tworzy kopie poszczegolnych ramek w postaci listy
             {
                 foreach (var nlist in frame.GetInformationPart())
                 {
-                    NewPacket.Add(nlist);
+                    NewPacket.Add(nlist); 
                 }
                 foreach (var nlist in frame.GetControlPart().GetList())
                 {
                     NewPacket.Add(nlist);
                 }
             }
-            int control_size = CalculateControlPartSize(NewPacket.Count, sizeOfControlPart);
-            List<byte> CRC_divider = GenerateCRC(control_size);
+            int control_size = CalculateControlPartSize(NewPacket.Count, sizeOfControlPart); // okresla dlugosc czesci kontrolnej
+            List<byte> CRC_divider = GenerateCRC(control_size); // generuje CRC divider
 
             for (int i = 0; i < control_size; i++)
-                NewPacket.Add(0);
+                NewPacket.Add(0);          // Przygotowuje miejsce dla czesci kontrolnej
 
-            nPackage.GetControlPart().SetCRCDivider(CRC_divider);
+            nPackage.GetControlPart().SetCRCDivider(CRC_divider); // ustawia CRC w Pakiecie
 
             return CalculateCRCControlPart(control_size, CRC_divider, NewPacket);
         }
@@ -50,7 +50,7 @@ namespace Projekt_Kolko
         {
             for (int i = 0; i < information_part.Count - size; i++)
             {
-                if(information_part[i] == 1)
+                if(information_part[i] == 1) // OPERACJA XOR ( algorytm dzialania CRC )
                 {
                     for (int j = 0; j < CRC_divider.Count; j++)
                     {
@@ -67,15 +67,25 @@ namespace Projekt_Kolko
             }
             List<byte> control_part = new List<byte>();
             for (int i = 0; i < size; i++)
-                control_part.Add(information_part[information_part.Count - size + i]);
+                control_part.Add(information_part[information_part.Count - size + i]); // wybranie jedynie czesci kontrolnej
 
             return control_part;
         }
+
+        /// <summary>
+        /// Okresla dlugosc czesci kontrolnej
+        /// </summary>
+        /// <param name="size_of_information_part"></param>
+        /// <param name="sizeOfControlPart"></param>
+        /// <returns></returns>
         private int CalculateControlPartSize(int size_of_information_part,int sizeOfControlPart)
         {
+            
             if (sizeOfControlPart != Functions.FLEXIBLE)
-                return sizeOfControlPart;
+                return sizeOfControlPart; // ? Jesli okreslona jest dlugosc czesci kontrolnej
+
             int control_size = 1;
+            // Okresla dlugosc czesci kontrolnej ze wzgledu na dlugosc czesci informacyjnej bazujac na wielokrotnosci dwojki.
             for (int i = 4; size_of_information_part >= i; i = i * 2)
             {
                 control_size++;
@@ -139,6 +149,13 @@ namespace Projekt_Kolko
             return DeterminateResults(NewPacket.Sum(x => Convert.ToInt32(x)), nPackage.IsChanged());
 
         }
+
+        /// <summary>
+        /// Okreslenie wynikow
+        /// </summary>
+        /// <param name="sum"></param>
+        /// <param name="changed"></param>
+        /// <returns></returns>
         private byte DeterminateResults(int sum, bool changed)
         {
             if(sum == 0)                   // Sprawdzanie bledu

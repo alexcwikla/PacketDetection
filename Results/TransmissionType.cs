@@ -1,9 +1,12 @@
-﻿using System;
+﻿using PackageDetection.Results;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Projekt_Kolko
 {
@@ -16,7 +19,8 @@ namespace Projekt_Kolko
         int size_of_frame = 10;
         int numbers_of_frame_in_package = 10;
         int size_control_part;
-        ResultsStorage ResultsS = new ResultsStorage();
+        ResultsStorage ResultsS = new ResultsStorage(); // przechowuje wyniki
+        ResultsWindow RWindow;
         public enum Data
         {
             noError = 0,
@@ -30,10 +34,18 @@ namespace Projekt_Kolko
         // 2 - unDetected
         // 3 - detectedNoError
         // 4 - number_of_transmission
-        char clickButton = '0';
+        
 
         ulong[] frame_results = new ulong[5] { 0, 0, 0, 0, 0 };
         ulong[] package_results = new ulong[5] { 0, 0, 0, 0, 0 };
+
+        private bool active = false; // flaga sprawdzajaca czy Transmisja jest wlaczona
+        public bool Active { get => active; set => active = value; }
+
+        public void Setr(ref ResultsWindow r)
+        {
+            RWindow = r;
+        }
 
         public TransmissionType(ulong _number_of_transsmision, IControl control_type,
             ICollision collision_type, int interference_level = 1000,
@@ -48,14 +60,11 @@ namespace Projekt_Kolko
             this.size_control_part = size_control_part;
         }
 
-        public void show()
+
+
+        public void Show()
         {
-            Console.WriteLine("number of transsmision :" + this._number_of_transsmision);
-            Console.WriteLine(" this.control_type :" + this.control_type);
-            Console.WriteLine("this.collision_type :" + this.collision_type);
-            Console.WriteLine("interference_level :" + interference_level);
-            Console.WriteLine("this.size_of_frame :" + this.size_of_frame);
-            Console.WriteLine("this.numbers_of_frame_in_package :" + this.numbers_of_frame_in_package);
+            ResultsS.ShowResults(ref RWindow);
         }
 
         public void Normal()
@@ -78,14 +87,22 @@ namespace Projekt_Kolko
             this.package_results[(int)Data.number_of_transmission] = _number_of_transsmision;
             this.frame_results[(int)Data.number_of_transmission] = _number_of_transsmision * (ulong)numbers_of_frame_in_package;
             ResultsS.AddResults(package_results, frame_results);
-            ResultsS.ShowResults();
+           ResultsS.ShowResults(ref RWindow);
+            //Task.Delay(100000);
 
 
 
         }
+
         
+
         public void UserStop()
         {
+            //BackgroundWorker worker = new BackgroundWorker();
+            //worker.WorkerReportsProgress = true;
+            //worker.DoWork += Stop;
+            ////worker.
+
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += Stop;
@@ -93,20 +110,34 @@ namespace Projekt_Kolko
 
             worker.RunWorkerAsync(1);
 
-            while (this.clickButton == '0')
-            {
-                this.Normal();
-            }
+            // create a thread  
 
-            
+
+
+
+            //Normal();
+
+
+
+
+            //Normal();
+
+            //}
+
 
         }
 
         public void Stop(object sender, DoWorkEventArgs e)
         {
-            Console.ReadKey();
-            this.clickButton = '1';
+            //RWindow = new ResultsWindow();
+            while(Active != false)
+                this.Normal();
+
+            //clickButton = '1';
+
+
         }
+        
 
         private void ClearResults()
         {

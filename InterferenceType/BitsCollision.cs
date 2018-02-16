@@ -50,16 +50,13 @@ namespace Projekt_Kolko
             this.basedOn = memo.M_basedOn;
 
         }
-
         private enum CollisionType
         {
            _package = 0,
            _frame = 1
         }
-
         public bool IsRandom { get => isRandom; set => isRandom = value; }
         public int IndexOfFirstBit { get => indexOfFirstBit; set => indexOfFirstBit = value; }
-
         public class Builder
         {
             BitsCollision BC = new BitsCollision();
@@ -80,10 +77,15 @@ namespace Projekt_Kolko
             /// </summary>
             /// <param name="numberOfFrame">Ustawia startowa ramke do przeklamania (dla kolizji grupowej )</param>
             /// <returns></returns>
-            public Builder SetBasedOnPackage(int numberOfFrame = 0)
+            public Builder SetBasedOnPackage(bool basedOnPakcage, int numberOfFrame = 0)
             {
-                BC.basedOn = CollisionType._package;
-                BC.indexOfFrame = numberOfFrame;
+                if (basedOnPakcage == true)
+                {
+                    BC.basedOn = CollisionType._package;
+                    BC.indexOfFrame = numberOfFrame;
+                }
+                else
+                    BC.basedOn = CollisionType._frame;
                 return this;
             }
             /// <summary>
@@ -114,23 +116,14 @@ namespace Projekt_Kolko
             }
 
 
-        }
+        } // na potrzeby gui niestety Builder nie bedzie przydatny, dlatego konstruktor jest publiczny
         private BitsCollision(){ } // ZABEZPIECZNIE (BUILDER)
-
         private void GenerateRandomNumber(int quantity, int maxIndex)
         {
-            //Console.WriteLine("tutaj : " + quantity);
             var rnd = new Random();
             this.indexesToChange = Enumerable.Range(0, maxIndex).OrderBy(x => rnd.Next()).Take(quantity).ToList();
             this.indexesToChange.Sort();
-            //for (int i = 0; i < quantity; i++)
-            //{
-            //    Console.WriteLine(this.indexesToChange[i]);
-            //}
-            //Console.WriteLine("JFDOISJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
         }
-
-
         private void DoRandomCollision(ref Frame _frame)
         {
             for (int i = 0; i < _frame.GetCountInformationAndControlPart(); i++, currentIndex++)
@@ -235,53 +228,39 @@ namespace Projekt_Kolko
         /// <param name="interference_level">Okresla liczbe przeklamanych bitow /param>
         public void DoCollision(Package nPackage, int interference_level)
         {
-              
             if (basedOn == CollisionType._frame)             // kolizja ramek (przeklamanie takiej samej liczby bitów w kazdej ramce)
             {
                 for (int i = 0; i < nPackage.GetFrames().Count; i++) // przeklamanie takiej samej liczby bitów w kazdej ramce
                 {
-
                     this.numberOfBitsToChange = interference_level;  // liczba bitów do zamiany w kazdej ramce          !##############
-
                     currentIndex = 0;
                     if (this.isRandom == true)
                         GenerateRandomNumber(this.numberOfBitsToChange, nPackage.GetFrameCount());
-
-                     
                     DoCollision(nPackage[i], this.numberOfBitsToChange);    // liczba bitow do przeklamania w kazdej ramce taka sama
-
-                    
                 }
             }
             else if(basedOn == CollisionType._package)       //kolizja pakietów (przekłamania bazujące na liczbie przeklamanych bitów )
             {
                 this.numberOfBitsToChange = interference_level; // liczba bitów do zamiany w całym pakiecie           !##############
-
                 if (this.isRandom == true)
                 {
                     GenerateRandomNumber(this.numberOfBitsToChange, nPackage.GetCountOfBitsInPackage());
                     this.indexOfFrame = 0;
                     this.indexOfFirstBit = 0;
-                }
+                }     
 
-                   
+
                 for (int i = indexOfFrame; i < nPackage.GetFrames().Count && this.numberOfBitsToChange != 0; i++)  // konkretna liczba bitow do przeklamania
                 {
                     DoCollision(nPackage[i], this.numberOfBitsToChange); // numberOfBitsToChange jest coraz mniejsze (przechodzi do kolejnych ramek
                     this.indexOfFirstBit = 0;                                       // az zostanie przeklamana liczba bitów założona na poczatku )
-
-
                 }
                 if (this.numberOfBitsToChange > 0)          // przeklamanie czesci kontrolnej pakietu, jesli zostały jeszcze bity do przeklamania
                 {
                     CollisionControlPartPackage(nPackage.GetControlPart());
-
                 }
-
-
-
             }
-            LoadDataFromMemory();
+            LoadDataFromMemory(); // zapisywanie poprzedniego stanu
         }
 
 
