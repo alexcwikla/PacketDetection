@@ -39,7 +39,7 @@ Do zrobienia:
 3. Dodanie możliwości zmiany prowadzonej transmisji. (np. przycisk „reset” )
 4. Przetestowanie działania aplikacji. Zostały jedynie wykonane testy jednostkowe sprawdzające niektóre funkcje.
 5. Dodanie algorytmów bazujących na bicie parzystości pozwalających na wygenerowanie części kontrolnej tego typu o długości większej niż 1 bit.
-6. Podzielenie menu na części odpowiadające konkretnemu typu kolizji(dodanie interfejsu , polepszenie kodu)!!! 
+6. Podzielenie menu na części odpowiadające konkretnemu typu kolizji(dodanie interfejsu, dziedziczenie, ogólne polepszenie kodu)!!! 
 
 Wykonali:
 
