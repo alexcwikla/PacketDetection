@@ -17,19 +17,14 @@ using Projekt_Kolko;
 
 namespace Menu_GUI
 {
-    /// <summary>
-    /// Logika interakcji dla klasy menu_mask_Length.xaml
-    /// </summary>
-    /// 
+
     public partial class MenuRandomCollision : Page
     {
 
         private ResultsWindow Results = new ResultsWindow();
         private TransmissionType newTranssmision;
-        //private Mask Mask_;
         public MenuRandomCollision()
         {
-            //Mask_ = mask;
             InitializeComponent();
         }
 
@@ -88,16 +83,19 @@ namespace Menu_GUI
                 MessageBox.Show("Wprowadz dane");
             }
         }
-        private void Button_Stop(object sender, RoutedEventArgs e)
+
+        void Stop()
         {
             if (newTranssmision != null)
                 newTranssmision.Active = false;
         }
-
         public void SClose()
         {
-            if (newTranssmision != null)
-                newTranssmision.Active = false;
+            Stop();
+        }
+        private void Button_Stop(object sender, RoutedEventArgs e)
+        {
+            Stop();
         }
 
 

@@ -27,10 +27,8 @@ namespace Menu_GUI
 
         private ResultsWindow Results = new ResultsWindow();
         private TransmissionType newTranssmision;
-        //private Mask Mask_;
         public MenuBitsCollision()
         {
-            //Mask_ = mask;
             InitializeComponent();
         }
 
@@ -39,10 +37,18 @@ namespace Menu_GUI
             pa.Content = Results;
         }
 
-        public void SClose()
+        void Stop()
         {
             if (newTranssmision != null)
                 newTranssmision.Active = false;
+        }
+        public void SClose()
+        {
+            Stop();
+        }
+        private void Button_Stop(object sender, RoutedEventArgs e)
+        {
+            Stop();
         }
 
         protected BitsCollision CreateBitsCollision(bool isRandom, string firstIndex, string firstFrame)
@@ -66,7 +72,7 @@ namespace Menu_GUI
         {
             
 
-            int toInt(string str) // sprawdza czy kolizja ma bazowac na pakiecie czy ramkach
+            int toInt(string str) // zamiana na Int
             { return Convert.ToInt32(str); }
 
             ulong numOfT = Convert.ToUInt64(_NumberOfTransmission.Text);
@@ -82,6 +88,7 @@ namespace Menu_GUI
             int sizeOfFra = toInt(_BitsInFrame.Text);
             int numFraInPac = toInt(_FramesInPackage.Text);
             int sizeOfControl = toInt(_BitsControlPart.Text);
+
             return new TransmissionType(numOfT, contType, Collision, intLvl, sizeOfFra, numFraInPac, sizeOfControl);
         }
             
@@ -94,11 +101,8 @@ namespace Menu_GUI
             {
                 if (newTranssmision == null)
                 {
-
                     BitsCollision BC = CreateBitsCollision(_IsRandom.IsChecked == true, _FirstIndex.Text, _FirstFrame.Text);
                     newTranssmision = CreateTransmission(BC);
-
-
                     newTranssmision.Setr(ref Results); //tu moze byc blad
                 }
                 if (newTranssmision.Active == false) //zabezpiecznie przed wielokrotnym nacisnieciem start
@@ -113,28 +117,22 @@ namespace Menu_GUI
                 MessageBox.Show("Wprowadz dane");
             }
         }
-        private void Button_Stop(object sender, RoutedEventArgs e)
-        {
-            if(newTranssmision != null)
-                newTranssmision.Active = false;
-        }
 
-        
-
-        
-
+        #region DataInBox And Checkbox
         private void DataInBox_(object sender, TextChangedEventArgs e)
         {
             TextBox n = (TextBox)sender;
             n.Text = Data_verification.Check(n.Text, 10000, 0, 5);
         }
+
+        // wybor konkretnej grupy bitow do zamiany | wylaczenie losowego wyboru bitow
         private void DataInBoxGroup_(object sender, TextChangedEventArgs e)
         {
             _FirstIndex.Text = Data_verification.Check(_FirstIndex.Text, 10000, 0, 5);
             _IsRandom.SetCurrentValue(CheckBox.IsCheckedProperty, false);
-            //_IsRandom.IsEnabled = false;
         }
 
+        // Prosty sposob na uniemozliwienie zaznaczenia wiecej niz 1 checkbox 
         private void ClickCheckCRC_(object sender, RoutedEventArgs e)
         {
             _CheckSum.SetCurrentValue(CheckBox.IsCheckedProperty, false);
@@ -156,5 +154,6 @@ namespace Menu_GUI
             _FirstIndex.Text = "";
             _IsRandom.SetCurrentValue(CheckBox.IsCheckedProperty, true);
         }
+        #endregion
     }
 }

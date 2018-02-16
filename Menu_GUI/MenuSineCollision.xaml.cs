@@ -27,8 +27,7 @@ namespace Menu_GUI
         {
             try
             {
-                //IP_ = ip;
-                //Mask_ = mask;
+
                 InitializeComponent();
             }
             catch (Exception)
@@ -43,19 +42,11 @@ namespace Menu_GUI
         {
             pa.Content = Results;
         }
-        public void SClose()
-        {
-            if (newTranssmision != null) 
-                newTranssmision.Active = false;
-        }
+
         private void Button_Start(object sender, RoutedEventArgs e)
         {
             try
             {
-
-
-
-
                 if (newTranssmision == null)
                 {
 
@@ -70,15 +61,6 @@ namespace Menu_GUI
                     newTranssmision.Active = true;
                     newTranssmision.UserStop();
                 }
-
-                //Thread newThread = new Thread(newTranssmision.Normal);
-                //newThread.Start(1);
-
-                //newTranssmision.Normal();
-                //newTranssmision.Show();
-
-
-
 
             }
             catch (FormatException)
@@ -129,10 +111,18 @@ namespace Menu_GUI
         }
 
 
-        private void Button_Stop(object sender, RoutedEventArgs e)
+        void Stop()
         {
             if (newTranssmision != null)
                 newTranssmision.Active = false;
+        }
+        public void SClose()
+        {
+            Stop();
+        }
+        private void Button_Stop(object sender, RoutedEventArgs e)
+        {
+            Stop();
         }
 
 
