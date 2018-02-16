@@ -37,6 +37,9 @@ Do zrobienia:
 6. Podzielenie menu na części odpowiadające konkretnemu typu kolizji(dodanie interfejsu , polepszenie kodu)!!! 
 
 Wykonali:
-Piotr Lipiński – Implementacja pakietów/ramek/części kontrolnej, algorytmy kontroli, algorytmy tworzenia zakłóceń, testy jednostkowe, sposoby prowadzenia transmisji, GUI
+Piotr Lipiński – Implementacja pakietów/ramek/części kontrolnej, algorytmy kontroli, algorytmy tworzenia zakłóceń, testy jednostkowe, 
+sposoby prowadzenia transmisji, GUI
+
 Alex Ćwikła -
+
 Patryk Obiedziński - GUI
