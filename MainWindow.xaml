@@ -11,7 +11,9 @@
             <RowDefinition Height = "30" />
             <RowDefinition Height="60"/>
             <RowDefinition Height = "30" />
-            <RowDefinition Height ="520"/>
+            <RowDefinition Height ="280"/>
+            <RowDefinition Height = "35" />
+            <RowDefinition Height ="205"/>
             <RowDefinition Height = "30" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions >
@@ -41,8 +43,9 @@
             </Grid>
         </StackPanel>
 
-        <Frame x:Name="calculate_window" Grid.Column="1" Grid.Row="3" NavigationUIVisibility="Hidden" Background="#FF6B9CF3" />
-        <Frame x:Name="Results_frame" Grid.Column="3" Grid.Row="3"  NavigationUIVisibility="Hidden" Background="#FF6B9CF3" />
-        
+        <Frame x:Name="menu_package" Grid.Column="1" Grid.Row="3" NavigationUIVisibility="Hidden" Background="#FF6B9CF3" />
+        <Frame x:Name="menu_collision" Grid.Column="1" Grid.Row="5" NavigationUIVisibility="Hidden" Background="#FF6B9CF3" />
+        <Frame x:Name="Results_frame" Grid.Column="3" Grid.Row="3"  NavigationUIVisibility="Hidden" Background="#FF6B9CF3" Grid.RowSpan="3" />
+
     </Grid>
 </Window>

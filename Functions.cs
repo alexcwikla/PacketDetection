@@ -58,10 +58,9 @@ namespace Projekt_Kolko
         {
             String binary = Convert.ToString(number, 2);
             List<byte> byteList = new List<byte>();
-            int toList;
             for (int i = 0; i < binary.Length; i++)
             {
-                if (Int32.TryParse(Convert.ToString(binary[i]), out toList))
+                if (Int32.TryParse(Convert.ToString(binary[i]), out int toList))
                     byteList.Add(Convert.ToByte((byte)toList));
                 else
                     Console.WriteLine("String could not be parsed.");

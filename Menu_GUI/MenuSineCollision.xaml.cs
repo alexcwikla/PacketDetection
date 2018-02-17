@@ -22,7 +22,8 @@ namespace Menu_GUI
     {
 
         private ResultsWindow Results = new ResultsWindow();
-        private TransmissionType newTranssmision;
+        private MenuPackageSettings PSettings = new MenuPackageSettings();
+        private SineCollision SC;
         public MenuSineCollision()
         {
             try
@@ -37,38 +38,47 @@ namespace Menu_GUI
 
         }
 
-
+        #region SetPages
         public void SetResultsPage(ref System.Windows.Controls.Frame pa)
         {
             pa.Content = Results;
         }
 
+        public void SetPackageSettingsPage(ref System.Windows.Controls.Frame pa)
+        {
+            pa.Content = PSettings;
+        }
+        #endregion
+
+        #region Stop/exit
+        public void SClose()
+        {
+            PSettings.Stop();
+        }
+        private void Button_Stop(object sender, RoutedEventArgs e)
+        {
+            PSettings.Stop();
+        }
+        #endregion
+
+
         private void Button_Start(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (newTranssmision == null)
+                if (SC == null)
                 {
-
-                    SineCollision SC = CreateBitsCollision( _XStart.Text, _XEnd.Text);
-                    newTranssmision = CreateTransmission(SC);
-
-
-                    newTranssmision.Setr(ref Results); //tu moze byc blad
+                    SC = CreateBitsCollision(_XStart.Text, _XEnd.Text);
                 }
-                if (newTranssmision.Active == false) //zabezpiecznie przed wielokrotnym nacisnieciem start
-                {
-                    newTranssmision.Active = true;
-                    newTranssmision.UserStop();
-                }
-
+                PSettings.Start_transsmision(SC, Results);
             }
             catch (FormatException)
             {
+                SC = null;
                 MessageBox.Show("Wprowadz dane");
             }
-
         }
+
         protected SineCollision CreateBitsCollision(string start, string end)
         {
             double x_start = Convert.ToDouble(start);
@@ -86,71 +96,14 @@ namespace Menu_GUI
             return  new SineCollision(1, 2, 0, x_start, x_end);
         }
 
-        public TransmissionType CreateTransmission(ICollision Collision)
-        {
-
-
-            int toInt(string str) // sprawdza czy kolizja ma bazowac na pakiecie czy ramkach
-            { return Convert.ToInt32(str); }
-
-            ulong numOfT = Convert.ToUInt64(_NumberOfTransmission.Text);
-            IControl contType = new ParityBitControl(); // zabezpiecznie przed niezaznaczniem zadnego checkboxu
-            if (_CRC.IsChecked == true)
-                contType = new CRCControl();
-            else if (_CheckSum.IsChecked == true)
-                contType = new CheckSumControl();
-            else if (_ParityBit.IsChecked == true)
-                contType = new ParityBitControl();
-
-            int intLvl = toInt(_InterferenceLVL.Text);
-            int sizeOfFra = toInt(_BitsInFrame.Text);
-            int numFraInPac = toInt(_FramesInPackage.Text);
-            int sizeOfControl = toInt(_BitsControlPart.Text);
-
-            return new TransmissionType(numOfT, contType, Collision, intLvl, sizeOfFra, numFraInPac, sizeOfControl);
-        }
-
-
-        void Stop()
-        {
-            if (newTranssmision != null)
-                newTranssmision.Active = false;
-        }
-        public void SClose()
-        {
-            Stop();
-        }
-        private void Button_Stop(object sender, RoutedEventArgs e)
-        {
-            Stop();
-        }
-
-
-
-
-
+        //Ochrona przed wpisywaniem niepoparwnych danych
+        #region DataInBox And Checkbox 
         private void DataInBox_(object sender, TextChangedEventArgs e)
         {
             TextBox n = (TextBox)sender;
             n.Text = Data_verification.Check(n.Text, 10000, 0, 5);
         }
-
-        private void ClickCheckCRC_(object sender, RoutedEventArgs e)
-        {
-            _CheckSum.SetCurrentValue(CheckBox.IsCheckedProperty, false);
-            _ParityBit.SetCurrentValue(CheckBox.IsCheckedProperty, false);
-        }
-        private void ClickCheckCheckSum_(object sender, RoutedEventArgs e)
-        {
-            _ParityBit.SetCurrentValue(CheckBox.IsCheckedProperty, false);
-            _CRC.SetCurrentValue(CheckBox.IsCheckedProperty, false);
-        }
-        private void ClickCheckParityBit_(object sender, RoutedEventArgs e)
-        {
-            _CheckSum.SetCurrentValue(CheckBox.IsCheckedProperty, false);
-            _CRC.SetCurrentValue(CheckBox.IsCheckedProperty, false);
-        }
-
+        #endregion
 
     }
 }

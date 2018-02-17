@@ -11,8 +11,7 @@ namespace Menu_GUI
         public class HighException : System.Exception { }
         public static string Check(string text, long maximum_number, long minimum_number = 0, int max_char_number=3)
         {
-            long number;
-            if (long.TryParse(text, out number))
+            if (long.TryParse(text, out long number))
             {
                 if (number > maximum_number)
                 {
@@ -20,12 +19,12 @@ namespace Menu_GUI
                 }
                 else
                 {
-                    if(number < minimum_number)
+                    if (number < minimum_number)
                     {
                         return minimum_number.ToString();
                     }
                     else
-                    if(text.Count() > max_char_number)
+                    if (text.Count() > max_char_number)
                         return maximum_number.ToString();
                 }
                 return text;

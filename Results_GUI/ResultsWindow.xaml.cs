@@ -28,7 +28,8 @@ namespace PackageDetection.Results
         private void ClearResults()
         {
 
-            Action act = () => { _PnoError.Text = " "; };
+            void act()
+            { _PnoError.Text = " "; }
             _PnoError.Dispatcher.Invoke(act);
             _PDetected.Dispatcher.Invoke(act);
             _PunDetected.Dispatcher.Invoke(act);

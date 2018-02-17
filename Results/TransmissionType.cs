@@ -42,7 +42,7 @@ namespace Projekt_Kolko
         private bool active = false; // flaga sprawdzajaca czy Transmisja jest wlaczona
         public bool Active { get => active; set => active = value; }
 
-        public void Setr(ref ResultsWindow r)
+        public void SetResultsPage(ref ResultsWindow r)
         {
             RWindow = r;
         }
@@ -98,43 +98,22 @@ namespace Projekt_Kolko
 
         public void UserStop()
         {
-            //BackgroundWorker worker = new BackgroundWorker();
-            //worker.WorkerReportsProgress = true;
-            //worker.DoWork += Stop;
-            ////worker.
 
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
+            BackgroundWorker worker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true
+            };
             worker.DoWork += Stop;
 
 
             worker.RunWorkerAsync(1);
 
-            // create a thread  
-
-
-
-
-            //Normal();
-
-
-
-
-            //Normal();
-
-            //}
-
-
         }
 
         public void Stop(object sender, DoWorkEventArgs e)
         {
-            //RWindow = new ResultsWindow();
             while(Active != false)
                 this.Normal();
-
-            //clickButton = '1';
-
 
         }
         
