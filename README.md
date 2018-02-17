@@ -23,7 +23,7 @@ Pakiet/Ramka przechodzi przez 3 etapy.
 3.	Sprawdzenie poprawności danych.
 
 
-Na potrzeby określenia niezawodności działania kontroli zostały wyznaczone 4 stany, gdy dane 
+Na potrzeby określenia działania kontroli zostały wyznaczone 4 stany, gdy dane 
 w pakiecie/ramce:
 1.	Nie zostały przekłamane oraz typ kontroli uznaje dane za bezbłędne.
 2.	Zostały przekłamane oraz zostało to wykryte.
@@ -39,13 +39,13 @@ Do zrobienia:
 3. Dodanie możliwości zmiany prowadzonej transmisji. (np. przycisk „reset” )
 4. Przetestowanie działania aplikacji. Zostały jedynie wykonane testy jednostkowe sprawdzające niektóre funkcje.
 5. Dodanie algorytmów bazujących na bicie parzystości pozwalających na wygenerowanie części kontrolnej tego typu o długości większej niż 1 bit.
-6. Podzielenie menu na części odpowiadające konkretnemu typu kolizji(dodanie interfejsu, dziedziczenie, ogólne polepszenie kodu)!!! 
+6. Podzielenie menu na części odpowiadające konkretnemu typu kolizji(dodanie interfejsu, dziedziczenie, ogólne polepszenie kodu)
 
 Wykonali:
 
 Piotr Lipiński – Implementacja pakietów/ramek/części kontrolnej, algorytmy kontroli, algorytmy tworzenia zakłóceń, testy jednostkowe, 
 sposoby prowadzenia transmisji, GUI
 
-Alex Ćwikła -
+Alex Ćwikła - algorytmy kontroli
 
 Patryk Obiedziński - GUI
