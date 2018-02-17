@@ -29,6 +29,7 @@ namespace Projekt_Kolko
             return InDec;
         }
 
+        // MOZNA TO ZAMIENIC NA GENERATE RANDOM NUMBER     <-------
         /// <summary>
         /// Generuje losowa wartosc typu byte(1 lub 0).
         /// </summary>
