@@ -37,7 +37,7 @@ namespace PackageDetection
         private void Click_bitsCollision(object sender, RoutedEventArgs e)
         {
             if(sine_Collision != null ) sine_Collision.SClose(); // zabepieczenie przed dzialaniem niechcianych watkow w tle
-            if (random_Collision != null)  random_Collision.SClose();
+            else if (random_Collision != null)  random_Collision.SClose();
 
             bits_Collision = new MenuBitsCollision();
             menu_collision.Content = bits_Collision;
@@ -48,7 +48,7 @@ namespace PackageDetection
         private void Click_sinusCollision(object sender, RoutedEventArgs e)
         {
             if (random_Collision != null) bits_Collision.SClose(); // zabepieczenie przed dzialaniem niechcianych watkow w tle
-            if (random_Collision != null) random_Collision.SClose();
+            else if (random_Collision != null) random_Collision.SClose();
 
             sine_Collision = new MenuSineCollision();
             menu_collision.Content = sine_Collision;
@@ -61,7 +61,7 @@ namespace PackageDetection
         private void Click_randomCollision(object sender, RoutedEventArgs e)
         {
             if (random_Collision != null) bits_Collision.SClose();// zabepieczenie przed dzialaniem niechcianych watkow w tle
-            if (sine_Collision != null) sine_Collision.SClose();
+            else if (sine_Collision != null) sine_Collision.SClose();
 
             random_Collision = new MenuRandomCollision();
             menu_collision.Content = random_Collision;
