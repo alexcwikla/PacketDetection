@@ -46,6 +46,6 @@ Wykonali:
 Piotr Lipiński – Implementacja pakietów/ramek/części kontrolnej, algorytmy kontroli, algorytmy tworzenia zakłóceń, testy jednostkowe, 
 sposoby prowadzenia transmisji, GUI
 
-Alex Ćwikła - algorytmy kontroli
+Alex Ćwikła - Algorytmy kontroli
 
 Patryk Obiedziński - GUI
